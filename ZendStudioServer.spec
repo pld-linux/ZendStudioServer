@@ -1,31 +1,16 @@
-Summary:	ZendStudioServer
+Summary:	ZendStudioServer - server management tools for PHP based Web servers
+Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
 Version:	4.0.0
 Release:	0.5
 Epoch:		0
 License:	Zend Studio License
-#Vendor:		-
 Group:		Applications
-#Icon:		-
 Source0:	%{name}-%{version}-linux-glibc21-i386.tar.gz
 # NoSource0-md5:	b7b24ac8736830e4b7a3a4d8124b3de0
 NoSource:	0
-#Source1:	-
-# Source1-md5:	-
-#Patch0:		%{name}-what.patch
-#URL:		-
-#BuildRequires:	-
-#PreReq:		-
-#Requires(pre,post):	-
-#Requires(preun):	-
-#Requires(postun):	-
 Requires:	ZendOptimizer
-#Requires:	php-sqlite
-#Provides:	-
-#Obsoletes:	-
-#Conflicts:	-
-#BuildArch:	noarch
-#ExclusiveArch:  %{ix86}
+ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_datadir	%{_prefix}/share/Zend
@@ -35,6 +20,12 @@ Includes server management tools that manage PHP based Web servers.
 This module makes installation and integration seamless while
 simplifying PHP and remote debugging configurations and security
 maintenance.
+
+%description -l pl
+Ten pakiet zawiera narzêdzia zarz±dzaj±ce serwerem dla serwerów WWW
+opartych na PHP. Ten modu³ pozwala na przezroczyst± instalacjê i
+integracjê jednocze¶nie upraszczaj±c konfiguracje PHP ze zdaln±
+diagnostyk± oraz zarz±dzanie bezpieczeñstwem.
 
 %prep
 %setup -q -c -T
