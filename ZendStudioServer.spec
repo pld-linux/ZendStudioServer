@@ -1,16 +1,21 @@
 Summary:	ZendStudioServer - server management tools for PHP based Web servers
 Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
-Version:	4.0.0
-Release:	0.5
+Version:	5.0.0
+%define	_beta Beta
+Release:	0.%{_beta}.1
 Epoch:		0
 License:	Zend Studio License
 Group:		Applications
-Source0:	%{name}-%{version}-linux-glibc21-i386.tar.gz
-# NoSource0-md5:	b7b24ac8736830e4b7a3a4d8124b3de0
+Source0:	http://downloads.zend.com/studio/5.0.0beta/%{name}-%{version}%{_beta}-linux-glibc21-i386.tar.gz
+# NoSource0-md5:	1429e3a6263ded21e0827344a9bbd9b6
 NoSource:	0
+Source1:	http://downloads.zend.com/studio/5.0.0beta/%{name}-%{version}%{_beta}-linux-glibc23-x86_64.tar.gz
+# NoSource1-md5:	885e25876d68d0b51f03c3dbd8717800
+NoSource:	1
+BuildRequires:	tar >= 1:1.15.1
 Requires:	ZendOptimizer
-ExclusiveArch:	%{ix86}
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_datadir	%{_prefix}/share/Zend
@@ -29,13 +34,15 @@ diagnostyk± oraz zarz±dzanie bezpieczeñstwem.
 
 %prep
 %setup -q -c -T
-tar --strip-path=1 -xzf %{SOURCE0}
+%ifarch %{x8664}
+tar --strip-components=1 -xzf %{SOURCE1}
+%else
+tar --strip-components=1 -xzf %{SOURCE0}
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir}/Zend/lib/tools,%{_datadir}/htdocs}
-install -d $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-{4.0.6,4.1.x,4.2.0,4.2.x,4.3.x,5.0.x}
-install -d $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-{4.2.x,4.3.x,5.0.x}
 
 cd data
 install dummy.php $RPM_BUILD_ROOT%{_datadir}/htdocs
@@ -49,15 +56,14 @@ cp -a phplib $RPM_BUILD_ROOT%{_libdir}/Zend/lib/tools
 
 #install ZendExtensionManager{,_TS}.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib
 
-install 4_1_x_comp/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-4.1.x
-install 4_2_0_comp/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.0
-install 4_2_x_comp/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.x
-install 4_3_x_comp/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-4.3.x
-install 5_0_x_comp/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-5.0.x
-
-install 4_2_x_comp/TS/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.2.x
-install 4_3_x_comp/TS/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.3.x
-install 5_0_x_comp/TS/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-5.0.x
+for a in *_comp; do
+	d=$(basename $a _comp|tr _ .)
+	install -D $a/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger-%{version}/php-$d/ZendDebugger.so
+done
+for a in *_comp/TS; do
+	d=$(basename $(dirname $a) _comp|tr _ .)
+	install -D $a/ZendDebugger.so $RPM_BUILD_ROOT%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-$d/ZendDebugger.so
+done
 
 cat > php.ini <<EOF
 [Zend]
@@ -124,24 +130,12 @@ rm -rf $RPM_BUILD_ROOT
 
 #%dir %{_libdir}/Zend
 #%dir %{_libdir}/Zend/lib
-%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-4.1.x
-%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.0
-%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.x
-%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-4.3.x
-%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-5.0.x
 %dir %{_libdir}/Zend/lib/Debugger-%{version}
+%dir %{_libdir}/Zend/lib/Debugger-%{version}/php-*
 %dir %{_libdir}/Zend/lib/Debugger_TS-%{version}
-%dir %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.2.x
-%dir %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.3.x
-%dir %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-5.0.x
-%{_libdir}/Zend/lib/Debugger-%{version}/php-4.1.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.0/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger-%{version}/php-4.2.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger-%{version}/php-4.3.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger-%{version}/php-5.0.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.2.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-4.3.x/ZendDebugger.so
-%{_libdir}/Zend/lib/Debugger_TS-%{version}/php-5.0.x/ZendDebugger.so
+%dir %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-*
+%attr(755,root,root) %{_libdir}/Zend/lib/Debugger-%{version}/php-*/ZendDebugger.so
+%attr(755,root,root) %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-*/ZendDebugger.so
 
 %{_libdir}/Zend/lib/tools
 
