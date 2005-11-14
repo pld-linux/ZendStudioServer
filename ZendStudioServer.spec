@@ -2,7 +2,7 @@ Summary:	ZendStudioServer - server management tools for PHP based Web servers
 Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
 Version:	5.0.0
-Release:	0.1
+Release:	0.3
 Epoch:		0
 License:	Zend Studio License
 Group:		Applications
@@ -13,7 +13,10 @@ Source1:	http://downloads.zend.com/studio/5.0.0/%{name}-%{version}-linux-glibc23
 # NoSource1-md5:	dbb459de43cf1492404b140b9f33e0a4
 NoSource:	1
 BuildRequires:	tar >= 1:1.15.1
-Requires:	ZendOptimizer
+# circular dependency, so ones upgraded are forced to choose php and
+# ones that want to install specific for specific version need not to
+# install ZendStudioServer separately
+Requires:	%{name}(php) = %{version}-%{release}
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -32,6 +35,34 @@ Ten pakiet zawiera narzêdzia zarz±dzaj±ce serwerem dla serwerów WWW
 opartych na PHP. Ten modu³ pozwala na przezroczyst± instalacjê i
 integracjê jednocze¶nie upraszczaj±c konfiguracje PHP ze zdaln±
 diagnostyk± oraz zarz±dzanie bezpieczeñstwem.
+
+%package -n php4-%{name}
+Summary:	ZendStudioServer for PHP 4.x
+Summary(pl):	ZendStudioServer dla PHP 4.x
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	php4-ZendOptimizer
+Provides:	%{name}(php) = %{version}-%{release}
+
+%description -n php4-%{name}
+ZendStudioServer for PHP 4.x.
+
+%description -n php4-%{name} -l pl
+ZendStudioServer dla PHP 4.x.
+
+%package -n php-%{name}
+Summary:	ZendStudioServer for PHP 5.x
+Summary(pl):	ZendStudioServer dla PHP 5.x
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	php-ZendOptimizer
+Provides:	%{name}(php) = %{version}-%{release}
+
+%description -n php-%{name}
+ZendStudioServer for PHP 5.x.
+
+%description -n php-%{name} -l pl
+ZendStudioServer dla PHP 5.x.
 
 %prep
 %setup -qcT
@@ -84,18 +115,41 @@ zend_extension_manager.debug_server=%{_libdir}/Zend/lib/Debugger-%{version}
 zend_extension_manager.debug_server_ts=%{_libdir}/Zend/lib/Debugger_TS-%{version}
 EOF
 
-install zend.ini $RPM_BUILD_ROOT%{_libdir}/Zend/%{name}.ini
-install pack.ini $RPM_BUILD_ROOT%{_libdir}/Zend/%{name}_pack.ini
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/php{,4}/conf.d
+install zend.ini $RPM_BUILD_ROOT/etc/php4/conf.d/%{name}.ini
+install zend.ini $RPM_BUILD_ROOT/etc/php/conf.d/%{name}.ini
+install pack.ini $RPM_BUILD_ROOT/etc/php4/conf.d/%{name}_pack.ini
+install pack.ini $RPM_BUILD_ROOT/etc/php/conf.d/%{name}_pack.ini
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%preun -n php4-%{name}
+if [ "$1" = "0" ]; then
+	[ ! -f /etc/apache/conf.d/??_mod_php4.conf ] || %service -q apache restart
+	[ ! -f /etc/httpd/httpd.conf/??_mod_php4.conf ] || %service -q httpd restart
+fi
+
+%post -n php4-%{name}
+[ ! -f /etc/apache/conf.d/??_mod_php4.conf ] || %service -q apache restart
+[ ! -f /etc/httpd/httpd.conf/??_mod_php4.conf ] || %service -q httpd restart
+
+
+%preun -n php-%{name}
+if [ "$1" = "0" ]; then
+	[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
+	[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
+fi
+
+%post -n php-%{name}
+[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
+[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
 
 %files
 %defattr(644,root,root,755)
 %doc README LICENSE LICENSE-PHP
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
-%{_datadir}
 
 %dir %{_libdir}/Zend/lib/Debugger-%{version}
 %dir %{_libdir}/Zend/lib/Debugger-%{version}/php-*
@@ -104,4 +158,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/Zend/lib/Debugger-%{version}/php-*/ZendDebugger.so
 %attr(755,root,root) %{_libdir}/Zend/lib/Debugger_TS-%{version}/php-*/ZendDebugger.so
 %{_libdir}/Zend/lib/tools
-%{_libdir}/Zend/*.ini
+
+# html documents
+%{_datadir}
+
+%files -n php4-%{name}
+%defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) /etc/php4/conf.d/%{name}.ini
+%config %verify(not md5 mtime size) /etc/php4/conf.d/%{name}_pack.ini
+
+%files -n php-%{name}
+%defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) /etc/php/conf.d/%{name}.ini
+%config %verify(not md5 mtime size) /etc/php/conf.d/%{name}_pack.ini
