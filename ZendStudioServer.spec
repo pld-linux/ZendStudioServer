@@ -1,17 +1,18 @@
 Summary:	ZendStudioServer - server management tools for PHP based Web servers
 Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
-Version:	5.0.0
-Release:	0.3
+Version:	5.1.0
+Release:	0.1
 Epoch:		0
 License:	Zend Studio License
 Group:		Applications
-Source0:	http://downloads.zend.com/studio/5.0.0/%{name}-%{version}-linux-glibc21-i386.tar.gz
-# NoSource0-md5:	c55d9bbde4ec1eceba1b6a06e6ead9c3
+Source0:	http://downloads.zend.com/studio/%{version}/%{name}-%{version}-linux-glibc21-i386.tar.gz
+# NoSource0-md5:	e31e6e8ec09e6ffc5651558e0622c226
 NoSource:	0
-Source1:	http://downloads.zend.com/studio/5.0.0/%{name}-%{version}-linux-glibc23-x86_64.tar.gz
-# NoSource1-md5:	dbb459de43cf1492404b140b9f33e0a4
+Source1:	http://downloads.zend.com/studio/%{version}/%{name}-%{version}-linux-glibc23-x86_64.tar.gz
+# NoSource1-md5:	9899df71822ac753adce9b25cd41f6c7
 NoSource:	1
+URL:		http://downloads.zend.com/studio/%{version}/
 BuildRequires:	tar >= 1:1.15.1
 # circular dependency, so ones upgraded are forced to choose php and
 # ones that want to install specific for specific version need not to
