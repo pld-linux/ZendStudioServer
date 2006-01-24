@@ -1,18 +1,18 @@
 Summary:	ZendStudioServer - server management tools for PHP based Web servers
 Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
-Version:	5.1.0
+Version:	5.1.0a
 Release:	0.1
 Epoch:		0
 License:	Zend Studio License
 Group:		Applications
-Source0:	http://downloads.zend.com/studio/%{version}/%{name}-%{version}-linux-glibc21-i386.tar.gz
-# NoSource0-md5:	e31e6e8ec09e6ffc5651558e0622c226
+Source0:	http://downloads.zend.com/studio/5.1.0/%{name}-%{version}-linux-glibc21-i386.tar.gz
+# NoSource0-md5:	99672eec3502fb0aa6d779cc66333772
 NoSource:	0
-Source1:	http://downloads.zend.com/studio/%{version}/%{name}-%{version}-linux-glibc23-x86_64.tar.gz
-# NoSource1-md5:	9899df71822ac753adce9b25cd41f6c7
+Source1:	http://downloads.zend.com/studio/5.1.0/%{name}-%{version}-linux-glibc23-x86_64.tar.gz
+# NoSource1-md5:	a7ddb3b964fe0c1746b0f7b8a5093423
 NoSource:	1
-URL:		http://downloads.zend.com/studio/%{version}/
+URL:		http://downloads.zend.com/studio/5.1.0/
 BuildRequires:	tar >= 1:1.15.1
 # circular dependency, so ones upgraded are forced to choose php and
 # ones that want to install specific for specific version need not to
@@ -148,7 +148,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README LICENSE LICENSE-PHP
+%doc README* LICENSE LICENSE-PHP
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/*
 
