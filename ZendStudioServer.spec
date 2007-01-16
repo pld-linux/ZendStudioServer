@@ -13,6 +13,7 @@ Source1:	http://downloads.zend.com/studio/5.1.0/%{name}-%{version}-linux-glibc23
 # NoSource1-md5:	a7ddb3b964fe0c1746b0f7b8a5093423
 NoSource:	1
 URL:		http://downloads.zend.com/studio/5.1.0/
+BuildRequires:	rpmbuild(macros) >= 1.344
 BuildRequires:	tar >= 1:1.15.1
 # circular dependency, so ones upgraded are forced to choose php and
 # ones that want to install specific for specific version need not to
@@ -127,24 +128,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %preun -n php4-%{name}
 if [ "$1" = "0" ]; then
-	[ ! -f /etc/apache/conf.d/??_mod_php4.conf ] || %service -q apache restart
-	[ ! -f /etc/httpd/httpd.conf/??_mod_php4.conf ] || %service -q httpd restart
+	%php4_webserver_restart
 fi
 
 %post -n php4-%{name}
-[ ! -f /etc/apache/conf.d/??_mod_php4.conf ] || %service -q apache restart
-[ ! -f /etc/httpd/httpd.conf/??_mod_php4.conf ] || %service -q httpd restart
-
+%php4_webserver_restart
 
 %preun -n php-%{name}
 if [ "$1" = "0" ]; then
-	[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
-	[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
+	%php_webserver_restart
 fi
 
 %post -n php-%{name}
-[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
-[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
+%php_webserver_restart
 
 %files
 %defattr(644,root,root,755)
