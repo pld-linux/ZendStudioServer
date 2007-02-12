@@ -1,5 +1,5 @@
 Summary:	ZendStudioServer - server management tools for PHP based Web servers
-Summary(pl):	ZendStudioServer - narzêdzia zarz±dzaj±ce dla serwerów WWW opartych na PHP
+Summary(pl.UTF-8):   ZendStudioServer - narzÄ™dzia zarzÄ…dzajÄ…ce dla serwerÃ³w WWW opartych na PHP
 Name:		ZendStudioServer
 Version:	5.1.0a
 Release:	0.1
@@ -32,15 +32,15 @@ This module makes installation and integration seamless while
 simplifying PHP and remote debugging configurations and security
 maintenance.
 
-%description -l pl
-Ten pakiet zawiera narzêdzia zarz±dzaj±ce serwerem dla serwerów WWW
-opartych na PHP. Ten modu³ pozwala na przezroczyst± instalacjê i
-integracjê jednocze¶nie upraszczaj±c konfiguracje PHP ze zdaln±
-diagnostyk± oraz zarz±dzanie bezpieczeñstwem.
+%description -l pl.UTF-8
+Ten pakiet zawiera narzÄ™dzia zarzÄ…dzajÄ…ce serwerem dla serwerÃ³w WWW
+opartych na PHP. Ten moduÅ‚ pozwala na przezroczystÄ… instalacjÄ™ i
+integracjÄ™ jednoczeÅ›nie upraszczajÄ…c konfiguracje PHP ze zdalnÄ…
+diagnostykÄ… oraz zarzÄ…dzanie bezpieczeÅ„stwem.
 
 %package -n php4-%{name}
 Summary:	ZendStudioServer for PHP 4.x
-Summary(pl):	ZendStudioServer dla PHP 4.x
+Summary(pl.UTF-8):   ZendStudioServer dla PHP 4.x
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	php4-ZendOptimizer
@@ -49,12 +49,12 @@ Provides:	%{name}(php) = %{version}-%{release}
 %description -n php4-%{name}
 ZendStudioServer for PHP 4.x.
 
-%description -n php4-%{name} -l pl
+%description -n php4-%{name} -l pl.UTF-8
 ZendStudioServer dla PHP 4.x.
 
 %package -n php-%{name}
 Summary:	ZendStudioServer for PHP 5.x
-Summary(pl):	ZendStudioServer dla PHP 5.x
+Summary(pl.UTF-8):   ZendStudioServer dla PHP 5.x
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	php-ZendOptimizer
@@ -63,7 +63,7 @@ Provides:	%{name}(php) = %{version}-%{release}
 %description -n php-%{name}
 ZendStudioServer for PHP 5.x.
 
-%description -n php-%{name} -l pl
+%description -n php-%{name} -l pl.UTF-8
 ZendStudioServer dla PHP 5.x.
 
 %prep
