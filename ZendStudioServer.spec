@@ -1,5 +1,5 @@
 Summary:	ZendStudioServer - server management tools for PHP based Web servers
-Summary(pl.UTF-8):   ZendStudioServer - narzędzia zarządzające dla serwerów WWW opartych na PHP
+Summary(pl.UTF-8):	ZendStudioServer - narzędzia zarządzające dla serwerów WWW opartych na PHP
 Name:		ZendStudioServer
 Version:	5.1.0a
 Release:	0.1
@@ -40,7 +40,7 @@ diagnostyką oraz zarządzanie bezpieczeństwem.
 
 %package -n php4-%{name}
 Summary:	ZendStudioServer for PHP 4.x
-Summary(pl.UTF-8):   ZendStudioServer dla PHP 4.x
+Summary(pl.UTF-8):	ZendStudioServer dla PHP 4.x
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	php4-ZendOptimizer
@@ -54,7 +54,7 @@ ZendStudioServer dla PHP 4.x.
 
 %package -n php-%{name}
 Summary:	ZendStudioServer for PHP 5.x
-Summary(pl.UTF-8):   ZendStudioServer dla PHP 5.x
+Summary(pl.UTF-8):	ZendStudioServer dla PHP 5.x
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	php-ZendOptimizer
