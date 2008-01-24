@@ -23,8 +23,6 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_datadir	%{_prefix}/share/Zend
-%define		no_install_post_strip		1
-%define		no_install_post_chrpath		1
 
 %description
 Includes server management tools that manage PHP based Web servers.
